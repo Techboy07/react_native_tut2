@@ -1,6 +1,13 @@
-import { SafeAreaView, StyleSheet, Platform, ScrollView } from "react-native";
-import PokemonCard from "./compoents/PokemonCard";
-
+import {
+  SafeAreaView,
+  StyleSheet,
+  Platform,
+  ScrollView,
+  FlatList,
+  Text,
+  View,
+} from "react-native";
+import groupedPokemons from "./grouped-data.json";
 const charmanderData = {
   name: "Charmander",
   image: require("./assets/charmander.png"),
@@ -39,14 +46,28 @@ const pikachuData = {
 
 export default function App() {
   const pokeArray = [charmanderData, squirtleData, bulbasaurData, pikachuData];
-  const charmander = pokeArray[0];
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        {pokeArray.map((pokemon, idx) => (
-          <PokemonCard key={idx} {...pokemon} />
-        ))}
-      </ScrollView>
+      <SectionList
+        sections={groupedPokemons}
+        renderSectionHeader={({ section }) => (
+          <Text style={{ ...styles.listHeader }}>{section.type}</Text>
+        )}
+        renderItem={({ item }) => {
+          return (
+            <View
+              style={{
+                margin: 7,
+                borderWidth: 2,
+                padding: 10,
+                borderRadius: 10,
+              }}
+            >
+              <Text style={{ fontSize: 24 }}>{item}</Text>
+            </View>
+          );
+        }}
+      />
     </SafeAreaView>
   );
 }
@@ -56,5 +77,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f5f5f5",
     paddingTop: Platform.OS == "android" ? 25 : 0,
+  },
+  listHeader: {
+    flex: 1,
+    fontSize: 24,
+    fontWeight: "bold",
+    backgroundColor: "#fff",
   },
 });
