@@ -1,73 +1,44 @@
 import {
-  SafeAreaView,
-  StyleSheet,
-  Platform,
-  ScrollView,
-  FlatList,
   Text,
   View,
+  SafeAreaView,
+  TextInput,
+  StyleSheet,
+  StatusBar,
+  Platform,
+  Switch,
 } from "react-native";
-import groupedPokemons from "./grouped-data.json";
-const charmanderData = {
-  name: "Charmander",
-  image: require("./assets/charmander.png"),
-  type: "Fire",
-  hp: 39,
-  moves: ["Scratch", "Ember", "Growl", "Leer"],
-  weaknesses: ["Water", "Rock"],
-};
-
-const squirtleData = {
-  name: "Squirtle",
-  image: require("./assets/squirtle.png"), // Replace with the actual image path
-  type: "Water",
-  hp: 44,
-  moves: ["Tackle", "Water Gun", "Tail Whip", "Withdraw"],
-  weaknesses: ["Electric", "Grass"],
-};
-
-const bulbasaurData = {
-  name: "Bulbasaur",
-  image: require("./assets/bulbasaur.png"), // Replace with the actual image path
-  type: "Grass",
-  hp: 45,
-  moves: ["Tackle", "Vine Whip", "Growl", "Leech Seed"],
-  weaknesses: ["Fire", "Ice", "Flying", "Psychic"],
-};
-
-const pikachuData = {
-  name: "Pikachu",
-  image: require("./assets/pikachu.png"), // Replace with the actual image path
-  type: "Electric",
-  hp: 35,
-  moves: ["Quick Attack", "Thunderbolt", "Tail Whip", "Growl"],
-  weaknesses: ["Ground"],
-};
+import { useState } from "react";
 
 export default function App() {
-  const pokeArray = [charmanderData, squirtleData, bulbasaurData, pikachuData];
+  const [name, setName] = useState();
+  const [isDarkMode, setIsDarkMode] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
-      <SectionList
-        sections={groupedPokemons}
-        renderSectionHeader={({ section }) => (
-          <Text style={{ ...styles.listHeader }}>{section.type}</Text>
-        )}
-        renderItem={({ item }) => {
-          return (
-            <View
-              style={{
-                margin: 7,
-                borderWidth: 2,
-                padding: 10,
-                borderRadius: 10,
-              }}
-            >
-              <Text style={{ fontSize: 24 }}>{item}</Text>
-            </View>
-          );
-        }}
+      <TextInput
+        style={styles.input}
+        value={name}
+        onChangeText={setName}
+        placeholder="example@email.com"
+        secureTextEntry
+        autoCapitalize="none"
+        autoCorrect={false}
       />
+      <TextInput
+        style={[styles.input, styles.multilineText]}
+        placeholder="message"
+        multiline
+      />
+
+      <View style={styles.switchContaner}>
+        <Text style={styles.text}>Dark Mode</Text>
+        <Switch
+          value={isDarkMode}
+          onValueChange={() => setIsDarkMode((current) => !current)}
+          trackColor={{ false: "#767577", true: "lightblue" }}
+          thumbColor={"#f4f3f4"}
+        />
+      </View>
     </SafeAreaView>
   );
 }
@@ -75,13 +46,30 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
-    paddingTop: Platform.OS == "android" ? 25 : 0,
-  },
-  listHeader: {
-    flex: 1,
-    fontSize: 24,
-    fontWeight: "bold",
     backgroundColor: "#fff",
+    paddingTop: Platform.OS == "android" ? 25 : 0,
+    alignItems: "center",
+  },
+  input: {
+    height: 40,
+    width: "90%",
+    margin: 12,
+    padding: 10,
+    borderWidth: 1,
+  },
+  text: {
+    padding: 10,
+    fontSize: 24,
+  },
+  multilineText: {
+    height: 100,
+    textAlignVertical: "top",
+  },
+  switchContaner: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+    gap: 100,
   },
 });
