@@ -1,61 +1,60 @@
-import {
-  View,
-  Button,
-  StyleSheet,
-  Modal,
-  Text,
-  StatusBar,
-  ActivityIndicator,
-} from "react-native";
-import { useState } from "react";
+import { SafeAreaView, StyleSheet, Platform, ScrollView } from "react-native";
+import PokemonCard from "./compoents/PokemonCard";
+
+const charmanderData = {
+  name: "Charmander",
+  image: require("./assets/charmander.png"),
+  type: "Fire",
+  hp: 39,
+  moves: ["Scratch", "Ember", "Growl", "Leer"],
+  weaknesses: ["Water", "Rock"],
+};
+
+const squirtleData = {
+  name: "Squirtle",
+  image: require("./assets/squirtle.png"), // Replace with the actual image path
+  type: "Water",
+  hp: 44,
+  moves: ["Tackle", "Water Gun", "Tail Whip", "Withdraw"],
+  weaknesses: ["Electric", "Grass"],
+};
+
+const bulbasaurData = {
+  name: "Bulbasaur",
+  image: require("./assets/bulbasaur.png"), // Replace with the actual image path
+  type: "Grass",
+  hp: 45,
+  moves: ["Tackle", "Vine Whip", "Growl", "Leech Seed"],
+  weaknesses: ["Fire", "Ice", "Flying", "Psychic"],
+};
+
+const pikachuData = {
+  name: "Pikachu",
+  image: require("./assets/pikachu.png"), // Replace with the actual image path
+  type: "Electric",
+  hp: 35,
+  moves: ["Quick Attack", "Thunderbolt", "Tail Whip", "Growl"],
+  weaknesses: ["Ground"],
+};
 
 export default function App() {
-  const [modalVisible, setModalVisible] = useState(false);
-
+  const pokeArray = [charmanderData, squirtleData, bulbasaurData, pikachuData];
+  const charmander = pokeArray[0];
   return (
-    <View style={{ flex: 1, backgroundColor: "plum", padding: 60 }}>
-      <StatusBar
-        backgroundColor={"lightgreen"}
-        barStyle={"dark-content"}
-        hidden
-      />
-
-      <ActivityIndicator />
-      <ActivityIndicator
-        size={"large"}
-        color={"midnightblue"}
-        animating={false}
-      />
-      {/* <Button
-        title="Press"
-        onPress={() => {
-          setModalVisible(() => true);
-        }}
-        color="midnightblue"
-      />
-      <Modal
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-        animationType="slide"
-        presentationStyle="formSheet"
-      >
-        <View style={{ flex: 1, backgroundColor: "lightblue", padding: 60 }}>
-          <Text>Modal content</Text>
-          <Button
-            title="Close"
-            color="midnightblue"
-            onPress={() => {
-              setModalVisible(() => false);
-            }}
-          />
-        </View>
-      </Modal> */}
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        {pokeArray.map((pokemon, idx) => (
+          <PokemonCard key={idx} {...pokemon} />
+        ))}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#f5f5f5",
+    paddingTop: Platform.OS == "android" ? 25 : 0,
   },
 });
