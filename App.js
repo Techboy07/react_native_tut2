@@ -1,32 +1,51 @@
-import "react-native-gesture-handler";
-import { NavigationContainer } from "@react-navigation/native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-
 import { StyleSheet, Text, View } from "react-native";
-import DashboardScreen from "./screens/DashboardScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import CourseListScreen from "./screens/CourseList";
+import ProfileScreen from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 
-const Drawer = createDrawerNavigator();
+import IonIcons from "@expo/vector-icons/Ionicons";
+
+const Tab = createBottomTabNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator>
-        <Drawer.Screen
-          name="Dashboard"
-          component={DashboardScreen}
+      <Tab.Navigator
+        screenOptions={{
+          tabBarLabelPosition: "below-icon",
+          tabBarShowLabel: true,
+          tabBarActiveTintColor: "purple",
+          tabBarInactiveTintColor: "blue",
+        }}
+      >
+        <Tab.Screen
+          name="Courses"
+          component={CourseListScreen}
           options={{
-            title: "my dashboard",
-            drawerLabel: "dashboard",
-            drawerActiveTintColor: "#333",
-            drawerActiveBackgroundColor: "lightblue",
-            drawerContentStyle: {
-              backgroundColor: "#c6cbcf",
-            },
+            tabBarLabel: "my courses",
+            tabBarIcon: () => <IonIcons name="book" size={15} />,
+            tabBarBadge: 3,
           }}
         />
-        <Drawer.Screen name="Settings" component={SettingsScreen} />
-      </Drawer.Navigator>
+        <Tab.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            tabBarLabel: "my profile",
+            tabBarIcon: () => <IonIcons name="person" size={15} />,
+          }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{
+            tabBarLabel: "my profile",
+            tabBarIcon: () => <IonIcons name="settings" size={15} />,
+          }}
+        />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };
