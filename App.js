@@ -1,51 +1,36 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
-import HomeScreen from "./screens/HomeScreen";
-import AboutScreen from "./screens/AboutScreen";
-import CourseListScreen from "./screens/CourseList";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
-const Stack = createNativeStackNavigator();
+import { StyleSheet, Text, View } from "react-native";
+import DashboardScreen from "./screens/DashboardScreen";
+import SettingsScreen from "./screens/SettingsScreen";
+
+const Drawer = createDrawerNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          title: "Welcome Home",
-          headerStyle: {
-            backgroundColor: "#6a51ae",
-          },
-          headerTintColor: "#fff",
-          headerBackTitleStyle: {
-            fontweight: "bold",
-          },
-          headerRight: () => {
-            return (
-              <Pressable onPress={() => alert("Menu button prwessed")}>
-                <Text style={{ color: "#fff", fontSize: 16 }}>Menu</Text>
-              </Pressable>
-            );
-          },
-          contentStyle: {
-            backgroundColor: "#e8e4f3",
-          },
-        }}
-      >
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          initialParams={{ result: "" }}
+      <Drawer.Navigator>
+        <Drawer.Screen
+          name="Dashboard"
+          component={DashboardScreen}
+          options={{
+            title: "my dashboard",
+            drawerLabel: "dashboard",
+            drawerActiveTintColor: "#333",
+            drawerActiveBackgroundColor: "lightblue",
+            drawerContentStyle: {
+              backgroundColor: "#c6cbcf",
+            },
+          }}
         />
-        <Stack.Screen name="Courses" component={CourseListScreen} />
-        <Stack.Screen name="About" component={AboutScreen} />
-      </Stack.Navigator>
+        <Drawer.Screen name="Settings" component={SettingsScreen} />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 };
 
-const styles = StyleSheet.create({});
-
 export default App;
+
+const styles = StyleSheet.create({});
