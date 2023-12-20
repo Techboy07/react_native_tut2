@@ -1,75 +1,51 @@
-import {
-  Text,
-  View,
-  SafeAreaView,
-  TextInput,
-  StyleSheet,
-  StatusBar,
-  Platform,
-  Switch,
-} from "react-native";
-import { useState } from "react";
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from "react";
+import HomeScreen from "./screens/HomeScreen";
+import AboutScreen from "./screens/AboutScreen";
+import CourseListScreen from "./screens/CourseList";
 
-export default function App() {
-  const [name, setName] = useState();
-  const [isDarkMode, setIsDarkMode] = useState(false);
+const Stack = createNativeStackNavigator();
+
+const App = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <TextInput
-        style={styles.input}
-        value={name}
-        onChangeText={setName}
-        placeholder="example@email.com"
-        secureTextEntry
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-      <TextInput
-        style={[styles.input, styles.multilineText]}
-        placeholder="message"
-        multiline
-      />
-
-      <View style={styles.switchContaner}>
-        <Text style={styles.text}>Dark Mode</Text>
-        <Switch
-          value={isDarkMode}
-          onValueChange={() => setIsDarkMode((current) => !current)}
-          trackColor={{ false: "#767577", true: "lightblue" }}
-          thumbColor={"#f4f3f4"}
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          title: "Welcome Home",
+          headerStyle: {
+            backgroundColor: "#6a51ae",
+          },
+          headerTintColor: "#fff",
+          headerBackTitleStyle: {
+            fontweight: "bold",
+          },
+          headerRight: () => {
+            return (
+              <Pressable onPress={() => alert("Menu button prwessed")}>
+                <Text style={{ color: "#fff", fontSize: 16 }}>Menu</Text>
+              </Pressable>
+            );
+          },
+          contentStyle: {
+            backgroundColor: "#e8e4f3",
+          },
+        }}
+      >
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          initialParams={{ result: "" }}
         />
-      </View>
-    </SafeAreaView>
+        <Stack.Screen name="Courses" component={CourseListScreen} />
+        <Stack.Screen name="About" component={AboutScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingTop: Platform.OS == "android" ? 25 : 0,
-    alignItems: "center",
-  },
-  input: {
-    height: 40,
-    width: "90%",
-    margin: 12,
-    padding: 10,
-    borderWidth: 1,
-  },
-  text: {
-    padding: 10,
-    fontSize: 24,
-  },
-  multilineText: {
-    height: 100,
-    textAlignVertical: "top",
-  },
-  switchContaner: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 10,
-    gap: 100,
-  },
-});
+const styles = StyleSheet.create({});
+
+export default App;
